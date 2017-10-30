@@ -7,12 +7,13 @@ var Schema = mongoose.Schema;
 //Create article schema
 var NoteSchema = new Schema({
     //title is a require string
-    title: {
+    result: {
         type: String
     },
     //body is a string
     body: {
-        type: String
+        type: String,
+        require: true
     }
 })
 

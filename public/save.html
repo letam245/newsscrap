@@ -14,38 +14,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<!-- <style>
-        body { background-color: #F2F6D0 }
-        #wrapper {
-          width: 960px;
-          margin-left: auto;
-          margin-right: auto;
-          padding-top: 5%;
-        }
-        #articles {
-          display: inline-block;
-          overflow: auto;
-          width: 60%;
-          height: 700px;
-        }
-        #notes {
-          float: right;
-          width: 30%;
-        }
-        textarea, input {
-          display: block;
-          width: 100%;
-          background-color: #FCF5C7;
-        }
-        input {
-          height: 36px;
-          font-size: 24px;
-        }
-        textarea {
-          height: 200px;
-          font-size: 18px;
-        }
-      </style> -->
 
 <body>
 
@@ -55,9 +23,9 @@
                 <a class="navbar-brand" href="/">Mongo Scraper</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="save.html">Saved Articles</a></li>
-                <li><a href= "/scrape" class="btn btn-danger scrape-new">SCRAPE NEW ARTICLES!</a></li>
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="save.html">Saved Articles</a></li>
+                
             </ul>
         </div>
     </nav>
@@ -72,9 +40,11 @@
         </div>
     </div>
     <div class="container">
-            <div id="articles"></div>
-            <!-- <h1>SAVE ARTICLES</h1>
-            <div id="savenotes"></div> -->
+            <div class="col-sm-12">
+                <h1>SAVE ARTICLES</h1>
+            </div>
+            <div class="col-sm-9" id="savenotes"></div>
+            <div class="col-sm-3" id="noteHere"></div>
     </div>
 
     

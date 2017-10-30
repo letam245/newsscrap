@@ -9,12 +9,21 @@ var ArticleSchema = new Schema({
     //title is a require string
     title: {
         type: String,
-        required: true
+        required: true,
+        
     },
     //link is require string
     link: {
         type: String,
         required: true
+    },
+    summary: {
+        type: String,
+        required: false
+    },
+    saved: {
+        type: Boolean,
+        default: false
     },
     // notes property for the article collection
     notes: [{
