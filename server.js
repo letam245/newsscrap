@@ -49,7 +49,7 @@ app.get("/scrape", function (req, res) {
     // Save an empty arry
     var result = [];
     // First, we grab the body of the html with request
-    request("http://www.nytimes.com/pages/todayspaper/index.html", function (err, reponse, html) {
+    request("http://www.nytimes.com/pages/todayspaper/index.html", function (err, response, html) {
         // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(html);
 
@@ -67,38 +67,56 @@ app.get("/scrape", function (req, res) {
             // This effectively passes the result object to the entry
             var entry = new Article(result)
 
-            // Now, save that entry to the db
-            entry.save(function (err, doc) {
-                if (err) {
-                    console.log(err)
+            //findAndSave(entry);
+            console.log("\n************" + result.title +  "\n************\n")
+
+            Article.find({ "title": result.title }, function (err, newdoc) {
+                
+                if (newdoc.length < 1) {
+                    entry.save(function (err, doc) {
+                        if (err) {
+                            console.log(err)
+                        }
+                        else {
+                            result.push(doc);
+                            //console.log(doc)
+                            if (i === arrLength - 1) {
+                                //res.send(result)
+                                res.redirect("/")
+                                console.log("=========> New Article added: " + result)
+                            }
+
+                        }
+                    })
                 }
                 else {
-                    result.push(doc);
-                    console.log(doc)
+                    // var message = newdoc[0] + "there is no news"
+                    // console.log(message)
                     if (i === arrLength - 1) {
-                        //res.send(result)
                         res.redirect("/")
-                        //console.log(result)
+                        console.log("\n====================\nNo New Article to Add:"  + result + "\n====================\n")
                     }
-
                 }
             })
+
+
         })
     })
-    // Tell the browser that we finished scraping the text
-    // res.send("Scrape Complete");
 
 })
 
+
+
 //This will get the articles we scraped from the mongoDB
 app.get("/articles", function (req, res) {
-    Article.find({}, function (err, doc) {
+    Article.find({ "saved": false }, function (err, doc) {
         if (err) {
             console.log(err)
         }
         else {
-            console.log(doc);
+            //console.log(doc);
             res.send(doc)
+            
         }
     })
 })
@@ -131,7 +149,7 @@ app.get("/savedarticle", function (req, res) {
                 console.log(err);
             }
             else {
-                console.log(doc)
+                //console.log(doc)
                 res.send(doc)
             }
         })
@@ -148,7 +166,7 @@ app.delete("/delete/:id", function (req, res) {
                 console.log(err);
             }
             else {
-                console.log(doc)
+                //console.log(doc)
                 res.send(doc)
             }
         });
@@ -210,11 +228,41 @@ app.delete("/deletenote/:id", function (req, res) {
 });
 
 
+// var findAndSave = function (entry) {
+//     var result = [];
+//     //var arrLength = $(".story").length;
+//     // Now, save that entry to the db
+//     Article.find({ "title": result.title }, function (err, newdoc) {
+//         if (newdoc.length < 1) {
+//             entry.save(function (err, doc) {
+//                 if (err) {
+//                     console.log(err)
+//                 }
+//                 else {
+//                     result.push(doc);
+//                     console.log("RESULT========\n" + result)
+//                     // if (i === arrLength - 1) {
+//                     //     // res.send(result)
+//                     //     // res.redirect("/")
+//                     //     console.log(result)
+//                     // }
 
+//                 }
+//             })
+//         }
+//         else {
+//             console.log("no new article today")
+//         }
+
+//     })
+
+//     return result;
+
+// }
 
 
 
 // Listen on port 5000
-app.listen(process.env.PORT || 5000, function() {
+app.listen(process.env.PORT || 5000, function () {
     console.log("App running on port 5000!");
-  });
+});

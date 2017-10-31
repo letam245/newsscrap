@@ -175,6 +175,7 @@ $(document).on("click", ".deleter", function () {
     // data: articleToSave
   }).done(function (data) {
     selected.empty();
+    $("#noteHere").empty();
 
   })
 });
